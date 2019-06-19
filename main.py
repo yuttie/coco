@@ -12,9 +12,18 @@ socket = socketio.SocketIO(app)
 def index():
     return render_template('index.html')
 
+@app.route('/phointer')
+def phointer():
+    return render_template('phointer.html')
+
+@socket.on('join')
+def handle_join(json, methods=['GET', 'POST']):
+    socketio.join_room(json['as'])
+
 @socket.on('orientation')
 def handle_orientation(json, methods=['GET', 'POST']):
     print(str(json))
+    socketio.emit('orientation', json, room='monitor')
 
 
 if __name__ == '__main__':

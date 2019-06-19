@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>test</title>
+    <title>Monitor</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
   </head>
   <body>
@@ -12,22 +12,12 @@
       const socket = io();
       socket.on('connect', function() {
         console.log('Connected')
-        socket.emit('general', {
-          data: 'Connected',
-        });
+        socket.emit('join', { as: 'monitor' });
       });
 
-      window.addEventListener('deviceorientation', function(event) {
+      socket.on('orientation', (ori) => {
         const output = document.querySelector('#output');
-        output.innerHTML = `alpha: ${event.alpha}<br>beta: ${event.beta}<br>gamma: ${event.gamma}`;
-
-        if (socket.connected) {
-          socket.emit('orientation', {
-            alpha: event.alpha,
-            beta: event.beta,
-            gamma: event.gamma,
-          });
-        }
+        output.innerHTML = `alpha: ${ori.alpha}<br>beta: ${ori.beta}<br>gamma: ${ori.gamma}`;
       });
     </script>
   </body>
