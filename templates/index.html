@@ -4,10 +4,38 @@
     <meta charset="utf-8">
     <title>Monitor</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      html, body {
+        width: 100%;
+        height: 100%;
+      }
+      .box {
+        position: absolute;
+        margin-left: -10px;
+        margin-top: -10px;
+        top: 0;
+        left: 0;
+        width: 20px;
+        height: 20px;
+      }
+      #target {
+        background: red;
+      }
+      #phoint {
+        background: blue;
+        border-radius: 50%;
+      }
+    </style>
   </head>
   <body>
     <div id="output">
     </div>
+    <div id="target" class="box"></div>
+    <div id="phoint" class="box"></div>
     <script>
       const socket = io();
       socket.on('connect', function() {
@@ -16,9 +44,50 @@
       });
 
       socket.on('orientation', (ori) => {
+        const alpha = Math.abs(ori.beta) <= 90 ? ((360 - ori.alpha) + 180) % 360 - 180
+                                     : ((360 - ori.alpha) + 360) % 360 - 180;
+        const beta = Math.abs(ori.beta) <= 90 ? -ori.beta : (ori.beta + 360) % 360 - 180;
+
+        const page_width = document.body.offsetWidth;
+        const page_height = document.body.offsetHeight;
+        const x = page_width * (0.5 + alpha / 90);
+        const y = page_height * (0.5 + beta / 90);
+
+        const phoint = document.querySelector('#phoint');
+        phoint.style.left = `${x}px`;
+        phoint.style.top = `${y}px`;
+
         const output = document.querySelector('#output');
-        output.innerHTML = `alpha: ${ori.alpha}<br>beta: ${ori.beta}<br>gamma: ${ori.gamma}`;
+        output.innerHTML = `alpha: ${ori.alpha}<br>beta: ${ori.beta}<br>gamma: ${ori.gamma}<br>alpha': ${alpha}<br>beta': ${beta}<br>x: ${x}<br>y: ${y}`;
+
+        if (typeof currentX !== 'undefined' && typeof currentY !== 'undefined') {
+          console.log({ source: [ori.alpha, ori.beta, ori.gamma], target: [currentX, currentY] });
+        }
       });
+
+      let currentX = undefined;
+      let currentY = undefined;
+      function changePosition() {
+        const page_width = document.body.offsetWidth;
+        const page_height = document.body.offsetHeight;
+        console.log(page_width, page_height);
+
+        const x = Math.floor(Math.random() * Math.floor(page_width));
+        const y = Math.floor(Math.random() * Math.floor(page_height));
+
+        const target = document.querySelector('#target');
+        target.style.left = `${x}px`;
+        target.style.top = `${y}px`;
+
+        currentX = x;
+        currentY = y;
+      }
+
+      function anim() {
+        changePosition();
+        setTimeout(anim, 1000);
+      }
+      setTimeout(anim, 1000);
     </script>
   </body>
 </html>
