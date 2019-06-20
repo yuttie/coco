@@ -1,11 +1,11 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "c54803e0dca1952f5449b83fc1ff023ec64ba0bbd5060abbba784552b0917e7d"
+            "sha256": "80b025ace9f821b2a9fd96686238097120779dc2dc5e850b09b6cb1df4411ad8"
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_version": "3.6"
+            "python_version": "3.7"
         },
         "sources": [
             {
@@ -182,17 +182,17 @@
             "version": "==1.12.0"
         },
         "torch": {
-            "file": "https://download.pytorch.org/whl/cpu/torch-1.1.0-cp36-cp36m-linux_x86_64.whl",
+            "file": "https://download.pytorch.org/whl/cpu/torch-1.1.0-cp37-cp37m-linux_x86_64.whl",
             "hashes": [
                 "sha256:12387aa96653004d9ad7d9e5d3eadc98b15e51f5f4d168808cb5d81bffe70618",
                 "sha256:2e852457ff6830868d7acd1fcb0b3ea3b0447947d5f57460cbe2eb4e05796d85",
                 "sha256:337161e62354f40766be367a338766b409c59b64214436851ac81d6ef2e4f3ab",
                 "sha256:40c644abef1767dcac58f3285021ea963123b392e5628d402e985123ea8701ca",
+                "sha256:89ff0caa3d523c2f8638c7876a5566d49ea105838a83e7ac5b449ff317b439f2",
                 "sha256:ac6d634468849876b1ae3ae8e35a6c4755be9eddac2708922782730ec0415cd0",
                 "sha256:b1abcbb86c08912dd791895d3beccbef9404de7a0b9966ae7f8c9d2a04668e49",
                 "sha256:cb1a87d732b084bf1d931b8d1e34c357b10b2f9f7bbdf1a41fe951d16007ed75",
                 "sha256:d7d48a3472688debf86ba9ba61b570d6ed0529413dacaa8408b84db878079395",
-                "sha256:f20df27935cd76d9eb244ea0f5558f65ff45730a1e19fe6b30b639f6cb4d640e",
                 "sha256:f3342d535a3465bd73f30504a16d61d2995618e07b62b94b041b4a5860c1c684"
             ],
             "index": "pypi",
