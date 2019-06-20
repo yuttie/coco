@@ -98,7 +98,7 @@ def handle_train(json, methods=['GET', 'POST']):
 
         train_dataset_loader = torch.utils.data.DataLoader(
                 dataset,
-                batch_size=32,
+                batch_size=64,
                 shuffle=True,
                 drop_last=False,
                 collate_fn=lambda x: x)
