@@ -25,6 +25,11 @@ def handle_orientation(json, methods=['GET', 'POST']):
     print(str(json))
     socketio.emit('orientation', json, room='monitor')
 
+@socket.on('record')
+def handle_record(json, methods=['GET', 'POST']):
+    print(str(json))
+    socketio.emit('record', json, room='monitor')
+
 
 if __name__ == '__main__':
     socket.run(app, debug=True, host='0.0.0.0', port=8888, certfile='cert.pem', keyfile='key.pem')

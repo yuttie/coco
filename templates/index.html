@@ -60,13 +60,23 @@
         const output = document.querySelector('#output');
         output.innerHTML = `alpha: ${ori.alpha}<br>beta: ${ori.beta}<br>gamma: ${ori.gamma}<br>alpha': ${alpha}<br>beta': ${beta}<br>x: ${x}<br>y: ${y}`;
 
-        if (typeof currentX !== 'undefined' && typeof currentY !== 'undefined') {
-          console.log({ source: [ori.alpha, ori.beta, ori.gamma], target: [currentX, currentY] });
+        if (recording && typeof targetX !== 'undefined' && typeof targetY !== 'undefined') {
+          console.log({ source: [ori.alpha, ori.beta, ori.gamma], target: [targetX, targetY] });
         }
       });
 
-      let currentX = undefined;
-      let currentY = undefined;
+      let recording = false;
+      socket.on('record', (command) => {
+        if (command === 'start') {
+          recording = true;
+        }
+        else if (command === 'end') {
+          recording = false;
+        }
+      });
+
+      let targetX = undefined;
+      let targetY = undefined;
       function changePosition() {
         const page_width = document.body.offsetWidth;
         const page_height = document.body.offsetHeight;
@@ -79,8 +89,8 @@
         target.style.left = `${x}px`;
         target.style.top = `${y}px`;
 
-        currentX = x;
-        currentY = y;
+        targetX = x;
+        targetY = y;
       }
 
       function anim() {

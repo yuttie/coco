@@ -41,9 +41,11 @@
 
       document.body.addEventListener('touchstart', function(event) {
         event.target.style.backgroundColor = 'red';
+        socket.emit('record', 'start');
       });
       document.body.addEventListener('touchend', function(event) {
         event.target.style.backgroundColor = null;
+        socket.emit('record', 'end');
       });
     </script>
   </body>
