@@ -58,13 +58,18 @@ def handle_join(json, methods=['GET', 'POST']):
     socketio.join_room(json['as'])
 
 
+def normalize_orientation(alpha_beta_gamma):
+    a, b, g = alpha_beta_gamma
+    return [a / 360,
+            b / 360 + 0.5,
+            g / 180 + 0.5]
+
+
 @socket.on('orientation')
 def handle_orientation(json, methods=['GET', 'POST']):
     net.eval()
-    abc = [json['alpha'] / 360,
-           json['beta'] / 360 + 0.5,
-           json['gamma'] / 180 + 0.5]
-    x, y = net(torch.tensor([abc], dtype=torch.float32, device=torch.device('cpu')))[0].tolist()
+    abg = normalize_orientation([json['alpha'], json['beta'], json['gamma']])
+    x, y = net(torch.tensor([abg], dtype=torch.float32, device=torch.device('cpu')))[0].tolist()
     json['estimated_x'] = x
     json['estimated_y'] = y
 
@@ -79,12 +84,8 @@ def handle_record(json, methods=['GET', 'POST']):
 
 @socket.on('train')
 def handle_train(json, methods=['GET', 'POST']):
-    source = json['source']
+    source = normalize_orientation(json['source'])
     target = json['target']
-
-    source[0] = source[0] / 360
-    source[1] = source[1] / 360 + 0.5
-    source[2] = source[2] / 180 + 0.5
 
     dataset.append([source, target])
     print([source, target])
