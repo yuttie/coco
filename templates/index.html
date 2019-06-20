@@ -76,27 +76,49 @@
         }
       });
 
-      let targetX = undefined;
-      let targetY = undefined;
+      let targetX = 0;
+      let targetY = 0;
+      const t = 2 * Math.PI * Math.random();
+      const v = 2;
+      let vx = v * Math.sin(t);
+      let vy = v * Math.cos(t);
       function changePosition() {
         const page_width = document.body.offsetWidth;
         const page_height = document.body.offsetHeight;
         console.log(page_width, page_height);
 
-        const x = Math.floor(Math.random() * Math.floor(page_width));
-        const y = Math.floor(Math.random() * Math.floor(page_height));
+        let newX = targetX + vx;
+        let newY = targetY + vy;
+
+        if (newX >= page_width) {
+          newX = page_width;
+          vx = -vx;
+        }
+        else if (newX <= 0) {
+          newX = 0;
+          vx = -vx;
+        }
+
+        if (newY >= page_height) {
+          newY = page_height;
+          vy = -vy;
+        }
+        else if (newY <= 0) {
+          newY = 0;
+          vy = -vy;
+        }
 
         const target = document.querySelector('#target');
-        target.style.left = `${x}px`;
-        target.style.top = `${y}px`;
+        target.style.left = `${newX}px`;
+        target.style.top = `${newY}px`;
 
-        targetX = x;
-        targetY = y;
+        targetX = newX;
+        targetY = newY;
       }
 
       function anim() {
         changePosition();
-        setTimeout(anim, 1000);
+        setTimeout(anim, 0);
       }
       setTimeout(anim, 0);
     </script>
