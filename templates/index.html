@@ -26,8 +26,12 @@
       #target {
         background: red;
       }
-      #phoint {
+      #phoint1 {
         background: blue;
+        border-radius: 50%;
+      }
+      #phoint2 {
+        background: green;
         border-radius: 50%;
       }
     </style>
@@ -36,7 +40,8 @@
     <div id="output">
     </div>
     <div id="target" class="box"></div>
-    <div id="phoint" class="box"></div>
+    <div id="phoint1" class="box"></div>
+    <div id="phoint2" class="box"></div>
     <script>
       const socket = io();
       socket.on('connect', function() {
@@ -54,15 +59,22 @@
         const x = page_width * (0.5 + alpha / 90);
         const y = page_height * (0.5 + beta / 90);
 
-        const phoint = document.querySelector('#phoint');
-        phoint.style.left = `${x}px`;
-        phoint.style.top = `${y}px`;
+        const phoint1 = document.querySelector('#phoint1');
+        phoint1.style.left = `${x}px`;
+        phoint1.style.top = `${y}px`;
+
+        const x_ = ori.estimated_x;
+        const y_ = ori.estimated_y;
+
+        const phoint2 = document.querySelector('#phoint2');
+        phoint2.style.left = `${x_}px`;
+        phoint2.style.top = `${y_}px`;
 
         const output = document.querySelector('#output');
-        output.innerHTML = `alpha: ${ori.alpha}<br>beta: ${ori.beta}<br>gamma: ${ori.gamma}<br>alpha': ${alpha}<br>beta': ${beta}<br>x: ${x}<br>y: ${y}`;
+        output.innerHTML = `alpha: ${ori.alpha}<br>beta: ${ori.beta}<br>gamma: ${ori.gamma}<br>alpha': ${alpha}<br>beta': ${beta}<br>x: ${x}<br>y: ${y}<br>x': ${x_}<br>y': ${y_}`;
 
         if (recording && typeof targetX !== 'undefined' && typeof targetY !== 'undefined') {
-          console.log({ source: [ori.alpha, ori.beta, ori.gamma], target: [targetX, targetY] });
+          socket.emit('train', { source: [ori.alpha, ori.beta, ori.gamma], target: [targetX, targetY] });
         }
       });
 
