@@ -48,9 +48,9 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/phointer')
-def phointer():
-    return render_template('phointer.html')
+@app.route('/pointer')
+def pointer():
+    return render_template('pointer.html')
 
 
 @socket.on('join')
